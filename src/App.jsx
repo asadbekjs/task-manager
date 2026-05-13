@@ -13,6 +13,18 @@ const INITIAL_TASKS = [
 function App() {
   const [tasks, setTasks] = useState(INITIAL_TASKS);
 
+  const handleAdd = ({ title, priority }) => {
+    setTasks((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        title, // title: title
+        priority,
+        isDone: false,
+      },
+    ]);
+  };
+
   const handleToggle = (id) => {
     // console.log("Toggle:", id);
     setTasks((prev) =>
@@ -30,7 +42,7 @@ function App() {
     <div style={{ padding: "32px 16px", fontFamily: "sans-serif" }}>
       <h1 style={{ textAlign: "center", marginBottom: 24 }}>📋 Task Manager</h1>
       <StatsBar />
-      <AddTaskForm />
+      <AddTaskForm onAdd={handleAdd} />
       <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleDelete} />
     </div>
   );

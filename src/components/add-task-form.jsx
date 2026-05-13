@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ onAdd }) => {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("medium");
   const handleSubmit = () => {
     if (!title.trim()) return;
     console.log(title, priority);
-    // onAdd({ title: title.trim(), priority });
+    onAdd({ title: title.trim(), priority });
+    setTitle("");
+    setPriority("medium");
   };
 
   return (
