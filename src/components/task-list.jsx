@@ -13,9 +13,10 @@ function TaskList({ tasks, onToggle, onDelete }) {
         return (
           <TaskItem
             key={task.id}
-            {...task} // {spread pattern}
             onToggle={onToggle}
             onDelete={onDelete}
+            task={task}
+            // {...task} // {spread pattern}
           />
         );
       })}

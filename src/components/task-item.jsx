@@ -1,63 +1,82 @@
 // src/components/TaskItem.jsx
-import Badge from "./ui/badge";
-import Button from "./ui/button";
 
-function TaskItem({
-  id,
-  title,
-  priority = "low",
-  isDone = false,
-  onToggle,
-  onDelete,
-}) {
-  const priorityConfig = {
-    high: { type: "danger", label: "Yuqori ⬆️" },
-    medium: { type: "warning", label: "O'rta ➡️" },
-    low: { type: "  ", label: "Past ⬇️" },
+function TaskItem({ task, onToggle, onDelete }) {
+  const priorityColor = {
+    high: "#fee2e2",
+    medium: "#fef3c7",
+    low: "#f0fdf4",
   };
-
-  const { type, label } = priorityConfig[priority] ?? priorityConfig.low;
 
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "12px",
+        gap: 12,
         padding: "12px 16px",
-        background: isDone ? "#f9fafb" : "#fff",
-        border: "1px solid #e5e7eb",
-        borderRadius: "8px",
-        marginBottom: "8px",
+        background: task.isDone ? "#f9fafb" : "#fff",
+        border: `1px solid ${task.isDone ? "#e5e7eb" : "#d1d5db"}`,
+        borderLeft: `4px solid ${priorityColor[task.priority] ?? "#e5e7eb"}`,
+        borderRadius: "10px",
+        marginBottom: 8,
+        transition: "all 0.2s",
       }}
     >
       {/* Checkbox */}
       <input
         type="checkbox"
-        checked={isDone}
-        onChange={() => onToggle?.(id)}
-        style={{ width: 18, height: 18, cursor: "pointer" }}
+        checked={task.isDone}
+        onChange={() => onToggle?.(task.id)}
+        style={{
+          width: 18,
+          height: 18,
+          cursor: "pointer",
+          accentColor: "#3b82f6",
+        }}
       />
 
       {/* Task title */}
       <span
         style={{
           flex: 1,
-          textDecoration: isDone ? "line-through" : "none",
-          color: isDone ? "#9ca3af" : "#111827",
+          textDecoration: task.isDone ? "line-through" : "none",
+          color: task.isDone ? "#9ca3af" : "#111827",
           fontSize: 15,
+          transition: "all 0.2s",
         }}
       >
-        {title}
+        {task.title}
       </span>
 
-      {/* Badge */}
-      <Badge type={type}>{label}</Badge>
+      <span
+        style={{
+          fontSize: 11,
+          fontWeight: 700,
+          textTransform: "uppercase",
+          padding: "3px 10px",
+          borderRadius: 999,
+          background: priorityColor[task.priority],
+          color: "#374151",
+        }}
+      >
+        {task.priority}
+      </span>
 
-      {/* Delete button */}
-      <Button variant="ghost" size="sm" onClick={() => onDelete?.(id)}>
+      <button
+        onClick={() => onDelete(task.id)}
+        style={{
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 16,
+          opacity: 0.5,
+          transition: "opacity 0.2s",
+        }}
+        onMouseEnter={(e) => (e.target.style.opacity = 1)}
+        onMouseLeave={(e) => (e.target.style.opacity = 0.5)}
+      >
         🗑️
-      </Button>
+      </button>
     </div>
   );
 }
