@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddTaskForm from "./components/add-task-form";
 import StatsBar from "./components/stats-bar";
 import TaskList from "./components/task-list";
+import FilterBar from "./components/filter-bar";
 
 const INITIAL_TASKS = [
   { id: 1, title: "React komponentlar", priority: "high", isDone: true },
@@ -11,7 +12,15 @@ const INITIAL_TASKS = [
 ];
 
 function App() {
+  // ✅ Global state — bir necha komponent ishlatadi
   const [tasks, setTasks] = useState(INITIAL_TASKS);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  // Derived state
+  const filteredTasks = tasks.filter((task) =>
+    filter === "all" ? true : filter === "active" ? !task.isDone : task.isDone,
+  );
 
   const handleAdd = ({ title, priority }) => {
     setTasks((prev) => [
@@ -41,9 +50,23 @@ function App() {
   return (
     <div style={{ padding: "32px 16px", fontFamily: "sans-serif" }}>
       <h1 style={{ textAlign: "center", marginBottom: 24 }}>📋 Task Manager</h1>
+
       <StatsBar tasks={tasks} />
+
       <AddTaskForm onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleDelete} />
+
+      <FilterBar
+        search={search}
+        onSearch={setSearch}
+        filter={filter}
+        onFilter={setFilter}
+      />
+
+      <TaskList
+        tasks={filteredTasks}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
