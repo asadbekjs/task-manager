@@ -5,8 +5,6 @@ const FilterBar = ({ search, onSearch, filter, onFilter }) => {
     { key: "completed", label: "Bajarilgan" },
   ];
 
-  console.log("Filter: ", filter);
-
   return (
     <div
       style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}

@@ -1,6 +1,5 @@
-const StatsBar = ({ tasks }) => {
-  const total = tasks.length;
-  const done = tasks.filter((t) => t.isDone).length;
+const StatsBar = ({ total, done }) => {
+  // derived state/props
   const remaining = total - done;
   const percent = total > 0 ? Math.round((done / total) * 100) : 0;
 

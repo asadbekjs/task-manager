@@ -3,9 +3,10 @@ import { useState } from "react";
 const AddTaskForm = ({ onAdd }) => {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("medium");
+
   const handleSubmit = () => {
     if (!title.trim()) return;
-    console.log(title, priority);
+    // console.log(title, priority);
     onAdd({ title: title.trim(), priority });
     setTitle("");
     setPriority("medium");
@@ -25,9 +26,10 @@ const AddTaskForm = ({ onAdd }) => {
     >
       <input
         type="text"
-        placeholder="Yangi vazifa ..."
+        placeholder="Yangi vazifa nomi (Enter)"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
         style={{
           flex: 1,
           padding: "10px 14px",
